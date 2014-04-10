@@ -10,73 +10,81 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to jQueryAir</h1>
+        <h1>Welcome to knockoutAir</h1>
         <p>You can book your ticket below</p>
 
         <hr/>
-        <form role="form" action="#">
-            <div class="form-group">
+        <form role="form" action="#" data-bind="submit : bookSeat">
+            <div class="form-group" data-bind="validationElement: chosenDestination">
                 <label for="destination">Destination</label>
-                <input id="destination" class="form-control" type="text" autocomplete="off">
+                <span class="control-label" data-bind="validationMessage: chosenDestination"></span>
+                <input data-bind="searchDestination : destination, value : chosenDestination" class="form-control" value="" type="text" autocomplete="off">
             </div>
 
-            <div class="form-group">
+            <div class="form-group" data-bind="validationElement: date">
                 <label for="departureDate">Departure</label>
-                <input id="departureDate" class="form-control" type="text" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy">
+                <span class="control-label" data-bind="validationMessage: date"></span>
+                <input data-bind="chooseDate : departureDate, value : date" class="form-control"  type="text" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy">
             </div>
 
             <hr/>
 
-            <div class="form-group">
+            <div class="form-group" data-bind="validationElement: name">
                 <label for="passengerName">Passenger name</label>
-                <input type="text" class="form-control" id="passengerName">
+                <span class="control-label" data-bind="validationMessage: name"></span>
+                <input type="text" class="form-control" data-bind="value : name">         
             </div>
 
-            <div class="form-group">
+            <div class="form-group" data-bind="validationElement: surname">
                 <label for="passengerSurname">Passenger surname</label>
-                <input type="text" class="form-control" id="passengerSurname">
+                <span class="control-label" data-bind="validationMessage: surname"></span>
+                <input type="text" class="form-control" data-bind="value : surname">
+                
             </div>
 
-            <div class="form-group">
+            <div class="form-group" data-bind="validationElement: email">
                 <label for="emailAddress">Email address</label>
-                <input type="email" class="form-control" id="emailAddress" placeholder="Enter email">
+                <span class="control-label" data-bind="validationMessage: email"></span>
+                <input type="email" class="form-control" data-bind="value : email," placeholder="Enter email" >
             </div>
 
             <hr/>
 
-            <div class="form-group">
+ 
+            <div class="form-group" data-bind="validationElement: seatId">
                 <label for="seat">Preferred seat</label>
-                <input type="text" id="seat">
+                <span class="control-label" data-bind="validationMessage: seatId"></span>
+                <input type="text" data-bind="chooseSeat : seat, value : seatId">
             </div>
 
             <div class="form-group">
                 <label for="additionalLuggage">Additional luggage</label>
-                <input type="number" class="form-control" id="additionalLuggage" min="0" max="5" value="0">
+                <input type="number" class="form-control" data-bind="value : additionalLuggage" min="0" max="5" value="0">
             </div>
 
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" id="priority"> Priority boarding
+                    <input type="checkbox" data-bind="checked : priority, click : choosePriorityBoarding"> Priority boarding
                 </label>
             </div>
+            <hr/>
+
+            <div class="alert alert-info"><strong>Total cost:</strong> <span data-bind="text: totalCost"></span>&#8364</div>
 
             <hr/>
 
-            <div class="alert alert-info"><strong>Total cost:</strong> <span id="totalCost">-</span>&#8364</div>
-
-            <hr/>
-
-            <div class="checkbox">
+            <div class="checkbox"  data-bind="validationElement: terms">
                 <label>
-                    <input type="checkbox" id="terms"> I accept terms and conditions
+                    <input type="checkbox" data-bind="checked : terms"> I accept terms and conditions
                 </label>
+                <span class="control-label" data-bind="validationMessage: terms"></span>
             </div>
             <button type="submit" class="btn btn-primary">Book ticket</button>
         </form>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="summaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="summaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -84,13 +92,13 @@
                     <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                 </div>
                 <div class="modal-body">
-                    Your name is <strong class="name"></strong> and your email is <strong class="email"></strong>.
+                    Your name is <strong data-bind="text : fullName"></strong> and your email is <strong data-bind="text : email"></strong>.
 
-                    You are booking a flight to <strong class="destination"></strong> on <strong class="departure"></strong>.
+                    You are booking a flight to <strong data-bind="text : chosenDestination"></strong> on <strong data-bind="text: date" ></strong>.
 
-                    Your preferred seat is <strong class="seat"></strong><span class="luggage"> and you are taking <strong class="luggage_count"></strong> bags with you</span>.
+                    Your preferred seat is <strong data-bind="text : seatId"></strong><span data-bind="visible : additionalLuggage() > 0" > and you are taking <strong data-bind="text : additionalLuggage"></strong> bags with you</span>.
 
-                    <span class="priority">You have bought <strong>priority boarding</strong>.</span>
+                    <span data-bind="visible : priority()">You have bought <strong>priority boarding</strong>.</span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -101,6 +109,8 @@
     </div>
 
 <script src="vendor/jquery.js"></script>
+<script src="vendor/knockout.js"></script>
+<script src="vendor/knockout-validation.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="vendor/datepicker/js/bootstrap-datepicker.js"></script>
 <script src="vendor/typeahead/typeahead.js"></script>

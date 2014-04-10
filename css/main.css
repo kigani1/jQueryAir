@@ -5,3 +5,9 @@
 .control-label {
     padding-left: 10px;
 }
+.datepicker td.day.disabled{
+    cursor: default;
+}
+.datepicker td.day.disabled:hover{
+    background: #fff;
+}
