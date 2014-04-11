@@ -18,13 +18,13 @@
             <div class="form-group" data-bind="validationElement: chosenDestination">
                 <label for="destination">Destination</label>
                 <span class="control-label" data-bind="validationMessage: chosenDestination"></span>
-                <input data-bind="searchDestination : destination, value : chosenDestination" class="form-control" value="" type="text" autocomplete="off">
+                <input data-bind="searchDestination : destination, value : chosenDestination" class="form-control" value="" type="text" autocomplete="off" id="destination">
             </div>
 
             <div class="form-group" data-bind="validationElement: date">
                 <label for="departureDate">Departure</label>
                 <span class="control-label" data-bind="validationMessage: date"></span>
-                <input data-bind="chooseDate : departureDate, value : date" class="form-control"  type="text" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy">
+                <input data-bind="chooseDate : departureDate, value : date" class="form-control"  type="text" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" id="departureDate">
             </div>
 
             <hr/>
@@ -32,20 +32,20 @@
             <div class="form-group" data-bind="validationElement: name">
                 <label for="passengerName">Passenger name</label>
                 <span class="control-label" data-bind="validationMessage: name"></span>
-                <input type="text" class="form-control" data-bind="value : name">         
+                <input type="text" class="form-control" data-bind="value : name" id="passengerName">         
             </div>
 
             <div class="form-group" data-bind="validationElement: surname">
                 <label for="passengerSurname">Passenger surname</label>
                 <span class="control-label" data-bind="validationMessage: surname"></span>
-                <input type="text" class="form-control" data-bind="value : surname">
+                <input type="text" class="form-control" data-bind="value : surname" id="passengerSurname">
                 
             </div>
 
             <div class="form-group" data-bind="validationElement: email">
                 <label for="emailAddress">Email address</label>
                 <span class="control-label" data-bind="validationMessage: email"></span>
-                <input type="email" class="form-control" data-bind="value : email," placeholder="Enter email" >
+                <input type="email" class="form-control" data-bind="value : email," placeholder="Enter email" id="emailAddress">
             </div>
 
             <hr/>
@@ -54,12 +54,12 @@
             <div class="form-group" data-bind="validationElement: seatId">
                 <label for="seat">Preferred seat</label>
                 <span class="control-label" data-bind="validationMessage: seatId"></span>
-                <input type="text" data-bind="chooseSeat : seat, value : seatId">
+                <input type="text" data-bind="chooseSeat : seat, value : seatId" id="seat">
             </div>
 
             <div class="form-group">
                 <label for="additionalLuggage">Additional luggage</label>
-                <input type="number" class="form-control" data-bind="value : additionalLuggage" min="0" max="5" value="0">
+                <input type="number" class="form-control" data-bind="value : additionalLuggage" min="0" max="5" value="0" id="additionalLuggage">
             </div>
 
             <div class="checkbox">
@@ -81,6 +81,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Book ticket</button>
         </form>
+
     </div>
 
     <!-- Modal -->
@@ -107,6 +108,10 @@
             </div>
         </div>
     </div>
+    
+  
+    
+    
 
 <script src="vendor/jquery.js"></script>
 <script src="vendor/knockout.js"></script>

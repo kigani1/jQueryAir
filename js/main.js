@@ -81,7 +81,21 @@
         },
         message: 'Invalid destination.'
     }
-    
+    ko.validation.rules['isValidDate'] = {
+        validator : function(value){
+            var arr = value.split('-').reverse();
+            for(var i = 0;i < arr.length;i++){
+              arr[i] = parseInt(arr[i]); 
+            }
+            var currentDate = new Date();
+            var selectDate = new Date(arr.toString());
+            if(selectDate < currentDate){
+                return false;
+            }
+            return true;
+        },
+        message : 'Entered date is from the past. Please recheck.'
+    };
     ko.validation.registerExtenders();
 
     
@@ -99,8 +113,8 @@
         this.surname = ko.observable('').extend({required: true, minLength : 3});
         this.email = ko.observable('').extend({required: true, email: {message : 'Invalid email format'}});
         this.seatId = ko.observable('').extend({required : {message : 'Please chose a preferred seat.'}});
-        this.date = ko.observable('').extend({required : true, pattern : { params : /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/, message : 'Invalid date foramt.' }})    
-
+        this.date = ko.observable('').extend({required : true, pattern : { params : /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/, message : 'Invalid date foramt.' }, isValidDate : true})    
+        
         this.additionalLuggage = ko.observable(0);
         this.priority = ko.observable(false);
         
@@ -110,6 +124,8 @@
         this.fullName = ko.computed(function(){
             return self.name() + ' ' + self.surname();
         });
+
+        
         /**************************
          COST CALCULATION
         *************************/
@@ -137,13 +153,12 @@
             }else{  
                 $('#summaryModal').modal();
             }
-        };
+        };        
+    
     }
-
+    
     ko.applyBindings(new AppViewModel());
 })();
-
-
 
 
 
