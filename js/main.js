@@ -40,23 +40,26 @@
                 return date.valueOf() < now.valueOf() ? 'disabled' : '';
               }
             });    
-        },
-        update : function(element){
             $(element).on('changeDate', function(){
                 var val = $(element).val();
-                $(this).attr('value', val).trigger('change');
+                $(this).attr('value', val).trigger('change');        
             });
-        }
+        },
     };
     ko.bindingHandlers.chooseSeat = {
         init : function(element){          
-            $(element).seatChooser();     
-        },
-        update : function(element){
+            $(element).seatChooser();  
             $(element).on('seatChanged', function() {
                var val = $(element).val();
-               $(this).attr('value', val).trigger('change');
+               $(this).attr('value', val).trigger('change');     
             });
+        },
+        update : function(element, valueAccessor){
+            
+            var value = valueAccessor;
+            var valueUnwrapped = ko.unwrap(value);   
+            $(element).data('plugin_seatChooser').setSeat(valueUnwrapped);         
+
         }
     };
    
@@ -107,6 +110,7 @@
     var AppViewModel = function(){
         var self = this;
         this.query = ko.observable('');
+        this.seat = ko.observable('');
         this.chosenDestination = ko.observable('').extend({required : true, isValidDestination : true});  
         this.terms = ko.observable(false).extend({checked : true});
         this.name = ko.observable('').extend({required: true, minLength : 3});
@@ -115,6 +119,19 @@
         this.seatId = ko.observable('').extend({required : {message : 'Please chose a preferred seat.'}});
         this.date = ko.observable('').extend({required : true, pattern : { params : /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/, message : 'Invalid date foramt.' }, isValidDate : true})    
         
+        
+//        this.invalidName = ko.observable(false)      
+//        this.validName = ko.computed({
+//            write : function(value){
+//            if(value.length > 2){
+//             self.name =value;
+//        self.invalidName(false);
+//                }
+//            },
+//            read : function(){
+//          self.invalidName(true);      
+//            }
+//        })
         this.additionalLuggage = ko.observable(0);
         this.priority = ko.observable(false);
         
@@ -125,7 +142,6 @@
             return self.name() + ' ' + self.surname();
         });
 
-        
         /**************************
          COST CALCULATION
         *************************/
@@ -153,9 +169,12 @@
             }else{  
                 $('#summaryModal').modal();
             }
-        };        
-    
+        };
+
     }
+    //To debug
+    //var avm = new AppViewModel();
+    //window.avm = avm;
     
     ko.applyBindings(new AppViewModel());
 })();

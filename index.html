@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>jQueryAir</title>
+    <title>knockoutAir</title>
 
     <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="vendor/datepicker/css/datepicker.css">
@@ -54,7 +54,7 @@
             <div class="form-group" data-bind="validationElement: seatId">
                 <label for="seat">Preferred seat</label>
                 <span class="control-label" data-bind="validationMessage: seatId"></span>
-                <input type="text" data-bind="chooseSeat : seat, value : seatId" id="seat">
+                <input type="text" class="form-control" data-bind="chooseSeat : seat, value : seatId" id="seat" >
             </div>
 
             <div class="form-group">
