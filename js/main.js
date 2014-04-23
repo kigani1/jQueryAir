@@ -16,9 +16,9 @@
      *************************/
    
     ko.bindingHandlers.searchDestination = {
-        init : function(element){
+        init : function(element) {
           $(element).typeahead(
-            {source: function(query, callback){    
+            { source: function(query, callback){    
                 query = query.toLowerCase();
 
                 var result = availableTickets.filter(function(ticket){
@@ -28,7 +28,7 @@
                 });
                 callback(result);
             }
-            });
+          });
         }
     };
     ko.bindingHandlers.chooseDate = {
@@ -47,20 +47,20 @@
         },
     };
     ko.bindingHandlers.chooseSeat = {
-        init : function(element){          
+        init : function(element, valueAccessor, allBindingsAccessor) {          
             $(element).seatChooser();  
             $(element).on('seatChanged', function() {
                var val = $(element).val();
                $(this).attr('value', val).trigger('change');     
             });
-        },
-        update : function(element, valueAccessor){
             
-            var value = valueAccessor;
-            var valueUnwrapped = ko.unwrap(value);   
-            $(element).data('plugin_seatChooser').setSeat(valueUnwrapped);         
 
-        }
+        },
+         update : function(element, valueAccessor, allBindingsAccessor) {
+            //var value = valueAccessor();
+            //var valueUnwrapped = ko.unwrap(value);  
+            $(element).data('plugin_seatChooser').setSeat(allBindingsAccessor().value()); 
+         }
     };
    
 
@@ -107,7 +107,7 @@
                 decorateElement: true,
                 insertMessages: false
     });
-    var AppViewModel = function(){
+    var AppViewModel = function() {
         var self = this;
         this.query = ko.observable('');
         this.seat = ko.observable('');
